@@ -1,0 +1,14 @@
+clc;
+clear;
+x = [2, 3, 4, 5];
+y = [27.8, 62.1, 110,161];
+X = log(x);
+Y = log(y);
+n = length(x);
+M = [n sum(X); sum(X) sum(X.^2)];
+b = [sum(Y); sum(X.*Y)];
+X = inv(M)*b;
+A = X(1); 
+B = X(2);
+L = exp(A)*x.^B;
+plot(x,y,'*r',x,L,'b-');
