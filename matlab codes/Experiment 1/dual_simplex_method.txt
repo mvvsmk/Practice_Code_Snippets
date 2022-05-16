@@ -1,0 +1,300 @@
+%dual simplex
+format short
+clc
+clear 
+C=[-5 -6 0 0 0]
+A=[-1 -1 1 0 -2; -4 -1 0 1 -4]
+bv=[3 4]
+zjcj=C(bv)*A-C
+AB=0;
+while AB==0
+if any(A(:,end)<0)
+disp('BFS is not feasible')
+[lvg_val, lv_row]=min(A(:,end))
+for i=1:size(A,2)-1
+if A(lv_row,i)<0
+ratio(i)=zjcj(i)/A(lv_row,i)
+else
+ratio(i)=-inf
+end
+end
+[ent_val, ent_col]=max(ratio)
+A(lv_row,:)=A(lv_row,:)/A(lv_row,ent_col)
+for i=1:size(A,1)
+if i~=lv_row
+A(i,:)=A(i,:)-A(i,ent_col).*A(lv_row,:)
+end
+end
+bv(lv_row)=ent_col;
+zjcj=zjcj-zjcj(ent_col).*A(lv_row,:)
+Z=[zjcj;A]
+else
+AB=1;
+end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%fibbonachi
+clc
+clear
+f=@(x) x*(x-2);
+a=0;b=1.5;n=4
+for i=3:n+1
+    F(1)=1;
+    F(2)=1;
+    F(i)=F(i-1)+F(i-2);
+end
+for i=n+1:-1:3
+    x1=a+(F(i-2)/F(i))*(b-a)
+    x2=b-(F(i-2)/F(i))*(b-a)
+    fx1=f(x1)
+    fx2=f(x2)
+    table=[a b x1 x2 f(x1) f(x2)]
+    if f(x1)>f(x2)
+        a=x1
+    else
+        b=x2
+    end
+end
+opt_pt=(a+b)/2
+opt_val=f(opt_pt)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% Least Cost
+clc
+clear 
+cost = [2 4 5; 4 3 3; 5 1 7; 1 4 6];
+supply=[4 8 5 12];
+demand=[ 6 8 15];
+[m,n] = size(cost);
+if sum(supply)==sum(demand)
+    disp("Balanced Problem");
+elseif sum(supply)<sum(demand) 
+    disp("Unbalanced Problem");
+    cost=[cost;zeros(1,n)]
+    supply=[supply sum(demand)-sum(supply)]
+else
+    disp("Unbalanced Problem");
+    cost=[cost zeros(m,1)]
+    demand=[demand sum(supply)-sum(demand)]
+end
+X = zeros(m,n);
+C = cost;
+while(sum(demand)>0)
+min_cost = min(min(cost))
+[r,c] = find(cost==min_cost)
+y = min(supply(r),demand(c))
+[alloc,index]= max(y)
+X(r(index),c(index))=alloc
+supply(r(index))=supply(r(index))-alloc
+demand(c(index))=demand(c(index))-alloc
+cost(r(index),c(index))=Inf;
+end
+total_cost = C.*X
+Final_Cost = sum(sum(total_cost))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%Weighted sum
+
+clc;
+clear;
+% max z1 = 2x1 + 3x2 ;  z2 = 4x1 - 2x2 ;  z3 = 5x1 + 7x2;
+% subject to  x1 + x2 >= 4 ; 3x1 + 4x2 <= 5 ; x1, x2 >= 0;
+
+m = 3; % number of objective functions
+C = [ 2, 3
+      4, -2
+      5, 7];
+ least = sum(C)/m;
+ % apply simplex after this 
+
+BFS simplex method
+
+
+clc
+clear all
+format short
+c=[-1,3,-2,0,0,0] 
+a=[3,-1,2,1,0,0,7;-2,4,0,0,1,0,12;-4,3,8,0,0,1,10]
+b=[7;12;10]
+ib=[4,5,6] %basic variable index
+for i=1:10
+for i=1:size(a,2)-1
+ZjCj(i)=sum(c(ib)*a(:,i))-c(i) 
+end
+ 
+%[p,q]=min(ZjCj)
+[entering_var,pivot_col]=min(ZjCj)
+if(entering_var>=0)
+    return
+else
+end
+end
+for i=1:size(a,1)
+    if(a(i,pivot_col)>0)
+    m(i)=(a(i,size(a,2))/a(i,pivot_col))
+    else
+        m(i)=inf
+end
+end
+[leaving_var,pivot_row]=min(m)
+a(pivot_row,:)=a(pivot_row,:)/a(pivot_row,pivot_col)
+for i=1:size(a,1)
+   if (i~=pivot_row)
+    a(i,:)=a(i,:)-a(i,pivot_col)*a(pivot_row,:)
+   end
+end
+for i=1:size(a,1)
+    if i==pivot_row
+        ib(i)=pivot_col
+    end
+end
