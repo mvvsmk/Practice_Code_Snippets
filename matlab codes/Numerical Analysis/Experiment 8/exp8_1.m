@@ -1,0 +1,12 @@
+clc;
+clear;
+x=[-2, -1, 0, 1, 2];
+y=[15, 1, 1, 3, 19];
+n=length(x);
+M=[ n, sum(x); sum(x), sum(x.^2)];
+b=[sum(y); sum(x.*y)];
+X=inv(M)*b;
+A=X(1);
+B=X(2);
+L=A+B*x;
+plot(x,y,'*r',x,L,'b-');

@@ -1,0 +1,10 @@
+clc;
+clear;
+X = [0.1, 0.2, 0.4, 0.5, 1, 2];
+Y = [21, 11, 7, 6, 5, 6];
+n = length(X);
+M = [sum(X), sum(1./(sqrt(X))); sum(1./(sqrt(X))), sum(1./(X.^2))];
+B = [sum(Y.*(sqrt(X))); sum(Y./X)];
+L = inv(M)*B;
+f = L(1)*sqrt(X)+L(2)*(1./X);
+plot(X,Y,'r*',X,f,'b-');

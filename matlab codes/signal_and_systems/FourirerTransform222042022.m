@@ -1,0 +1,21 @@
+clc ;
+clear;
+syms t w T;
+x = heaviside(t +T/2)-heaviside(t-T/2);
+xx= subs(x,T,8);
+%ezplot(xx,[-8,8]);
+x1 = fourier(xx,w);
+x12 = simplify(x1);
+
+subplot(1,2,1);
+fplot(xx,[-8,8]);
+ylim([-3,10]);
+title('Harit Mishra 102056013');
+xlabel('t');
+ylabel('xx');
+subplot(1,2,2);
+fplot(x1,[-8,8]);
+ylim([-3,10]);
+title('Harit Mishra 102056013');
+xlabel('w');
+ylabel('x1');
